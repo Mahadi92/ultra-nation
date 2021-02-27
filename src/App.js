@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 import Countries from './components/Countries/Countries';
@@ -22,8 +21,10 @@ function App() {
   const countryLimit = countries.slice(0,30)
   return (
     <div>
-      <h2>Country added: {count.length}</h2>
-      <Count count={count}></Count>
+      <div className="counting">
+        <h2>Country added: {count.length}</h2>
+        <Count count={count}></Count>
+      </div>
     {
       countryLimit.map(country => <Countries handleAddBtn={handleAddBtn} country={country} key={country.numericCode}></Countries>)
     }
