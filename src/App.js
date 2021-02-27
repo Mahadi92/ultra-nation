@@ -1,23 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+import Countries from './components/Countries/Countries';
+import Count from './components/Count/Count';
 
 function App() {
+  const [countries, setCountries] = useState([]);
+  useEffect(() => {
+    fetch('https://restcountries.eu/rest/v2/all')
+    .then(res => res.json())
+    .then(data => setCountries(data))
+    .catch(error => console.log(error))
+  }, [])
+
+  const [count, setCount] = useState([]);
+  const handleAddBtn = (country) => {
+    const newCount = [...count, country];
+    setCount(newCount);
+  }
+
+  const countryLimit = countries.slice(0,30)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>Country added: {count.length}</h2>
+      <Count count={count}></Count>
+    {
+      countryLimit.map(country => <Countries handleAddBtn={handleAddBtn} country={country} key={country.numericCode}></Countries>)
+    }
+      
     </div>
   );
 }
